@@ -1,5 +1,6 @@
 import { z, ZodError } from "zod";
 
+import { AccountAlreadyExists } from "../errors/AccountAlreadyExists";
 import { IController, IReq, IRes } from "../interfaces/IController";
 import { SignUpUseCase } from "../useCases/SignUpUseCase";
 
@@ -27,6 +28,15 @@ export class SignUpController implements IController {
         return {
           statusCode: 400,
           body: error.issues,
+        };
+      }
+
+      if (error instanceof AccountAlreadyExists) {
+        return {
+          statusCode: 409, // Conflict
+          body: {
+            error: "This email is already in use",
+          },
         };
       }
       throw error;
