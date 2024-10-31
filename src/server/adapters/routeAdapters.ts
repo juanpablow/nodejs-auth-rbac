@@ -6,7 +6,7 @@ export function routeAdapter(controller: IController) {
     const { statusCode, body } = await controller.handle({
       body: req.body ?? {},
       params: req.params as Record<string, string> | undefined,
-      accountId: req.metadata.accountId,
+      accountId: req.metadata?.accountId,
     });
     reply.status(statusCode).send(body);
   };
